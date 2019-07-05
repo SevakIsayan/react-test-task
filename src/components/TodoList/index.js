@@ -66,6 +66,14 @@ class TodoList extends Component {
     });
   }
 
+  onTodoFormChange(e) {
+    let openedForm = this.state.openedForm;
+
+    openedForm[e.name] = e.value;
+
+    this.setState({ openedForm });
+  }
+
   render() {
     if (this.state.pageLoading) {
       return (<Loading/>);
@@ -77,9 +85,9 @@ class TodoList extends Component {
             <Button variant="contained" color="primary" onClick={() => this.openAddTodoForm()}>+Add</Button>
             <Dialog open={!!this.state.openedForm && !this.state.openedForm.id}>
               <DialogTitle>Add todo</DialogTitle>
-              <form className="todo-form">
-                <Input className="field" placeholder="Title" />
-                <Input className="field" placeholder="Description" />
+              <form className="todo-form" onChange={(e) => this.onTodoFormChange(e.target)}>
+                <Input className="field" name="title" placeholder="Title" />
+                <Input className="field" name="body" placeholder="Description" />
                 <Button className="field" variant="contained" color="primary">Add</Button>
               </form>
             </Dialog>
@@ -100,9 +108,9 @@ class TodoList extends Component {
           ))}
           <Dialog open={!!this.state.openedForm && !!this.state.openedForm.id}>
             <DialogTitle>Edit todo</DialogTitle>
-            <form className="todo-form">
-              <Input className="field" placeholder="Title" />
-              <Input className="field" placeholder="Description" />
+            <form className="todo-form" onChange={(e) => this.onTodoFormChange(e.target)}>
+              <Input className="field" name="title" placeholder="Title" />
+              <Input className="field" name="body" placeholder="Description" />
               <Button className="field" variant="contained" color="primary">Save</Button>
             </form>
           </Dialog>
