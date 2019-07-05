@@ -83,7 +83,25 @@ class TodoList extends Component {
   saveTodo() {
     let todoForm = this.state.todoForm;
 
-    console.log(todoForm);
+    let todos = JSON.parse(localStorage.getItem('todos'));
+
+    if (todoForm.id) {
+      for (let i = 0; i < todos.length; i++) {
+        if (todos[i].id === todoForm.id) {
+          todos[i] = todoForm;
+          break;
+        }
+      }
+    } else {
+      todos.unshift({
+        ...todoForm,
+        id: todos.length
+      });
+    }
+
+    localStorage.setItem('todos', JSON.stringify(todos));
+    this.getTodoList();
+    this.closeTodoForm();
   }
 
   closeTodoForm() {
