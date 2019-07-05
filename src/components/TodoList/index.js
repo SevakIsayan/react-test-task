@@ -75,7 +75,7 @@ class TodoList extends Component {
           <div className="list-controls">
             <Button variant="contained" color="primary" onClick={() => this.populateTodos()}>Populate</Button>
             <Button variant="contained" color="primary" onClick={() => this.openAddTodoForm()}>+Add</Button>
-            <Dialog aria-labelledby="simple-dialog-title" open={false}>
+            <Dialog open={!!this.state.openedForm && !this.state.openedForm.id}>
               <DialogTitle>Add todo</DialogTitle>
               <form className="todo-form">
                 <Input className="field" placeholder="Title" />
@@ -92,20 +92,20 @@ class TodoList extends Component {
                 action={
                   <div>
                     <Button color="primary" onClick={() => this.openEditTodoForm(todo)}>Edit</Button>
-                    <Dialog aria-labelledby="simple-dialog-title" open={true}>
-                      <DialogTitle>Edit todo</DialogTitle>
-                      <form className="todo-form">
-                        <Input className="field" placeholder="Title" />
-                        <Input className="field" placeholder="Description" />
-                        <Button className="field" variant="contained" color="primary">Save</Button>
-                      </form>
-                    </Dialog>
                     <Button color="secondary" onClick={() => this.removeTodo(todo.id)}>Remove</Button>
                   </div>
                 }
               />
             </Card>
           ))}
+          <Dialog open={!!this.state.openedForm && !!this.state.openedForm.id}>
+            <DialogTitle>Edit todo</DialogTitle>
+            <form className="todo-form">
+              <Input className="field" placeholder="Title" />
+              <Input className="field" placeholder="Description" />
+              <Button className="field" variant="contained" color="primary">Save</Button>
+            </form>
+          </Dialog>
         </Container>
       );
     }
