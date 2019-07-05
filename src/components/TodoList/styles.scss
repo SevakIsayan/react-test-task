@@ -1,0 +1,17 @@
+.todo-list {
+    .list-controls {
+        display: flex;
+        justify-content: space-between;
+    }
+    .todo {
+        margin-top: 50px;
+    }
+}
+.todo-form {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    .field {
+        margin-top: 10px;
+    }
+}
