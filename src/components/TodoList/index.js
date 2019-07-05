@@ -13,7 +13,7 @@ class TodoList extends Component {
 
     this.state = {
       pageLoading: true,
-      openedForm: null
+      todoForm: null
     };
   }
 
@@ -44,7 +44,7 @@ class TodoList extends Component {
 
   openAddTodoForm() {
     this.setState({
-      openedForm: {
+      todoForm: {
         title: null,
         body: null
       }
@@ -52,9 +52,15 @@ class TodoList extends Component {
   }
 
   openEditTodoForm(todo) {
-    this.setState({
-      openedForm: todo
-    });
+    let todoForm = this.state.todoForm;
+
+    todoForm = {
+      id: todo.id,
+      title: todo.title,
+      body: todo.body
+    };
+
+    this.setState({ todoForm });
   }
 
   removeTodo(id) {
@@ -67,11 +73,21 @@ class TodoList extends Component {
   }
 
   onTodoFormChange(e) {
-    let openedForm = this.state.openedForm;
+    let todoForm = this.state.todoForm;
 
-    openedForm[e.name] = e.value;
+    todoForm[e.name] = e.value;
 
-    this.setState({ openedForm });
+    this.setState({ todoForm });
+  }
+  
+  saveTodo() {
+    let todoForm = this.state.todoForm;
+
+    console.log(todoForm);
+  }
+
+  closeTodoForm() {
+    this.setState({ todoForm: null });
   }
 
   render() {
@@ -83,13 +99,18 @@ class TodoList extends Component {
           <div className="list-controls">
             <Button variant="contained" color="primary" onClick={() => this.populateTodos()}>Populate</Button>
             <Button variant="contained" color="primary" onClick={() => this.openAddTodoForm()}>+Add</Button>
-            <Dialog open={!!this.state.openedForm && !this.state.openedForm.id}>
+            <Dialog open={!!this.state.todoForm && !this.state.todoForm.id}>
               <DialogTitle>Add todo</DialogTitle>
-              <form className="todo-form" onChange={(e) => this.onTodoFormChange(e.target)}>
-                <Input className="field" name="title" placeholder="Title" />
-                <Input className="field" name="body" placeholder="Description" />
-                <Button className="field" variant="contained" color="primary">Add</Button>
-              </form>
+              {this.state.todoForm &&
+                <form className="todo-form" onChange={(e) => this.onTodoFormChange(e.target)}>
+                  <Input className="field" name="title" placeholder="Title" />
+                  <Input className="field" name="body" placeholder="Description" />
+                  <div className="footer">
+                    <Button className="field" variant="contained" color="secondary" onClick={() => this.closeTodoForm()}>Cancel</Button>
+                    <Button className="field" variant="contained" color="primary" onClick={() => this.saveTodo()}>Add</Button>
+                  </div>
+                </form>
+              }
             </Dialog>
           </div>
           {this.props.todos.map((todo, k) => (
@@ -106,13 +127,18 @@ class TodoList extends Component {
               />
             </Card>
           ))}
-          <Dialog open={!!this.state.openedForm && !!this.state.openedForm.id}>
+          <Dialog open={!!this.state.todoForm && !!this.state.todoForm.id}>
             <DialogTitle>Edit todo</DialogTitle>
-            <form className="todo-form" onChange={(e) => this.onTodoFormChange(e.target)}>
-              <Input className="field" name="title" placeholder="Title" />
-              <Input className="field" name="body" placeholder="Description" />
-              <Button className="field" variant="contained" color="primary">Save</Button>
-            </form>
+            {this.state.todoForm &&
+              <form className="todo-form" onChange={(e) => this.onTodoFormChange(e.target)}>
+                <Input className="field" name="title" placeholder="Title" value={this.state.todoForm.title} />
+                <Input className="field" name="body" placeholder="Description" value={this.state.todoForm.body} />
+                <div className="footer">
+                  <Button className="field" variant="contained" color="secondary" onClick={() => this.closeTodoForm()}>Cancel</Button>
+                  <Button className="field" variant="contained" color="primary" onClick={() => this.saveTodo()}>Save</Button>
+                </div>
+              </form>
+            }
           </Dialog>
         </Container>
       );
