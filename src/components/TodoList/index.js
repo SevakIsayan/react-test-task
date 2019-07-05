@@ -118,7 +118,7 @@ class TodoList extends Component {
             <Button variant="contained" color="primary" onClick={() => this.populateTodos()}>Populate</Button>
             <Button variant="contained" color="primary" onClick={() => this.openAddTodoForm()}>+Add</Button>
             <Dialog open={!!this.state.todoForm && !this.state.todoForm.id}>
-              <DialogTitle>Add todo</DialogTitle>
+              <DialogTitle>Add</DialogTitle>
               {this.state.todoForm &&
                 <form className="todo-form" onChange={(e) => this.onTodoFormChange(e.target)}>
                   <Input className="field" name="title" placeholder="Title" />
@@ -146,7 +146,7 @@ class TodoList extends Component {
             </Card>
           ))}
           <Dialog open={!!this.state.todoForm && !!this.state.todoForm.id}>
-            <DialogTitle>Edit todo</DialogTitle>
+            <DialogTitle>Edit</DialogTitle>
             {this.state.todoForm &&
               <form className="todo-form" onChange={(e) => this.onTodoFormChange(e.target)}>
                 <Input className="field" name="title" placeholder="Title" value={this.state.todoForm.title} />
