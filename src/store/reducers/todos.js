@@ -13,7 +13,11 @@ const todos = (state = initialState, action) => {
     case VIEW_TODOS:
       const todos = JSON.parse(localStorage.getItem('todos'));
 
-      return {...state, todos};
+      if (todos && Array.isArray(todos) && todos.length) {
+        return {...state, todos};
+      }
+
+      return state;
     case CREATE_TODO:
       let newTodoList = [...state.todos];
        newTodoList.unshift({

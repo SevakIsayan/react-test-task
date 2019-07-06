@@ -14,16 +14,18 @@ class TodoModal extends Component {
     constructor(props) {
         super(props);
         const todo = props.todo;
+        const newTodo = props.newTodo;
+
 
         this.state = {
-            id: todo ? todo.id : 0,
-            title: todo ? todo.title : '',
-            body: todo ? todo.body : ''
+            id: todo && !newTodo ? todo.id : 0,
+            title: todo && !newTodo ? todo.title : '',
+            body: todo && !newTodo ? todo.body : ''
         }
     }
 
     componentWillUpdate(nextProps, nextState, nextContext) {
-        if (nextProps.todo !== this.props.todo) {
+        if (nextProps.todo !== this.props.todo && !nextProps.newTodo) {
             this.setState({...nextProps.todo});
         }
     }
@@ -40,6 +42,15 @@ class TodoModal extends Component {
         this.setState({[field]: target.value});
     };
 
+    cleanFieldsAndClose = () => {
+        this.setState({
+            id: 0,
+            title: '',
+            body: ''
+        });
+        this.props.close();
+    };
+
     createTodo = () => {
         this.props.createTodo(this.state);
 
@@ -49,7 +60,7 @@ class TodoModal extends Component {
             duration: 1000
         });
 
-        this.props.close();
+        this.cleanFieldsAndClose();
     };
 
     editTodo = () => {
@@ -61,7 +72,7 @@ class TodoModal extends Component {
             duration: 1000
         });
 
-        this.props.close();
+        this.cleanFieldsAndClose();
     };
 
     render() {
